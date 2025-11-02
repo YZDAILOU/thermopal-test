@@ -327,18 +327,20 @@ def check_conduct_activity():
             ).all()
             
             for conduct in old_conducts:
-                # Check if any users have ever joined this conduct
-                user_count = User.query.filter_by(conduct_id=conduct.id).count()
+                # Check if there are any currently active users in this conduct
+                active_user_count = User.query.filter_by(conduct_id=conduct.id).filter(
+                    User.status.in_(['working', 'resting'])
+                ).count()
                 
-                if user_count == 0:
-                    # No users have joined this conduct in 24 hours - deactivate it
+                if active_user_count == 0:
+                    # No active users in this conduct for 24 hours - deactivate it
                     conduct.status = 'inactive'
-                    print(f"Conduct '{conduct.name}' (PIN: {conduct.pin}) automatically deactivated after 24 hours with no users")
+                    print(f"Conduct '{conduct.name}' (PIN: {conduct.pin}) automatically deactivated after 24 hours with no active users")
                     
                     # Log the deactivation activity if there's activity logging
                     try:
                         log_activity(conduct.id, "SYSTEM", 'conduct_deactivated', 
-                                   details=f"Conduct automatically deactivated after 24 hours with no users at {now.strftime('%Y-%m-%d %H:%M:%S')}")
+                                   details=f"Conduct automatically deactivated after 24 hours with no active users at {now.strftime('%Y-%m-%d %H:%M:%S')}")
                     except:
                         # If logging fails, continue with deactivation
                         pass

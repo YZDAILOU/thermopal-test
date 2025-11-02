@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Screen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Ensure no browser default margins/padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Prevent any potential scrollbars */
+        html, body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <!-- @COMPONENT: WhiteScreen - Full viewport white background container -->
+    <div class="w-screen h-screen bg-white fixed top-0 left-0">
+        <!-- Pure white screen with no content -->
+    </div>
+    <!-- @END_COMPONENT: WhiteScreen -->
+</body>
+</html>
